@@ -31,22 +31,25 @@ struct Cinema{
 };
 
 void view_list(FILE* ptf){
+	char ch;
   fseek(ptf,0,SEEK_SET);
-  while(feof(ptf)){
-    char* str;
-    fgets( str, 255, ptf);
-    printf("%s\n",str );
-  }
+   ch = fgetc(ptf);
+    while (ch != EOF)
+    {
+        printf ("%c", ch);
+        ch = fgetc(ptf);
+    }
 }
 
 void reserve_sans(FILE* ptf) {
-  struct Sans sans,sans2;
+  struct Sans sans2;
+  char* name,date,startTime;
   printf("Enter the name of the movie that you want to reserve:\n");
-  scanf("%s",sans.movie.name);
+  scanf("%s",name);
    printf("Enter the Date that you consider:\n");
-  scanf("%s",sans.date);
+  scanf("%s",date);
   printf("Enter the start time that you consider:\n");
-  scanf("%s",sans.startTime);
+  scanf("%s",startTime);
 
   fseek(ptf,0,SEEK_SET);
   while(feof(ptf)){
@@ -54,9 +57,9 @@ void reserve_sans(FILE* ptf) {
 	   sans2.date, sans2.startTime,
 	   sans2.endTime, &sans2.availableSits);
     
-    if( !strcmp(sans.movie.name, sans2.movie.name) &&
-	!strcmp(sans.date, sans2.date) &&
-	!strcmp(sans.startTime, sans2.startTime)){
+    if( !strcmp(name, sans2.movie.name) &&
+	!strcmp (date, sans2.date) &&
+	!strcmp(startTime, sans2.startTime)){
        if(sans2.availableSits > 0){
 	 sans2.availableSits--;
 	    /* bayad too file ham avazesh konammm!!! */
@@ -73,9 +76,9 @@ void reserve_sans(FILE* ptf) {
 
 int main()
  {
-   FILE *ptf = fopen("salon.txt","w+");
-   if(ptf)
-    return 0;
+   FILE *ptf = fopen("salon.txt","r");
+   //if(ptf)
+    //return 0;
    
    char c;
    while(1){
